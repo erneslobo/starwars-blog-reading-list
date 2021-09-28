@@ -1,4 +1,6 @@
 const getState = ({ getStore, getActions, setStore }) => {
+	const BASE_URL = "https://swapi.dev/api/";
+
 	return {
 		store: {
 			demo: [
@@ -12,17 +14,39 @@ const getState = ({ getStore, getActions, setStore }) => {
 					background: "white",
 					initial: "white"
 				}
-			]
+			],
+			characters: [],
+			planets: [],
+			favorites: []
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
 			},
-			loadSomeData: () => {
-				/**
-					fetch().then().then(data => setStore({ "foo": data.bar }))
-				*/
+
+			addToFavorites: profile => {
+				const store = getStore();
+				setStore({ favorites: [...store.favorites, profile] });
+			},
+
+			removeFromFavorites: profile => {
+				const store = getStore();
+				const filterFavorites = store.favorites.filter(item => item != profile);
+				setStore({ favorites: filterFavorites });
+			},
+
+			getCharacters: async () => {
+				const url = `${BASE_URL}people/`;
+				const response = await fetch(url);
+				const data = await response.json();
+				setStore({ characters: data.results });
+			},
+			getPlanets: async () => {
+				const url = `${BASE_URL}planets/`;
+				const response = await fetch(url);
+				const data = await response.json();
+				setStore({ planets: data.results });
 			},
 			changeColor: (index, color) => {
 				//get the store
