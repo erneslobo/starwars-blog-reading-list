@@ -17,7 +17,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			],
 			characters: [],
 			planets: [],
-			favorites: []
+			favorites: [],
+			vehicles: []
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -47,6 +48,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const response = await fetch(url);
 				const data = await response.json();
 				setStore({ planets: data.results });
+			},
+			getVehicles: async () => {
+				const url = `${BASE_URL}vehicles/`;
+				const response = await fetch(url);
+				const data = await response.json();
+				setStore({ vehicles: data.results });
 			},
 			changeColor: (index, color) => {
 				//get the store
