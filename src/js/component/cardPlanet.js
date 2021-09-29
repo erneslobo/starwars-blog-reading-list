@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import "../../styles/home.scss";
 import PropTypes from "prop-types";
 
-export const CardPlanet = ({ item }) => {
+export const CardPlanet = ({ item, index }) => {
 	const { store, actions } = useContext(Context);
 	return (
 		<div className="col">
@@ -15,7 +15,7 @@ export const CardPlanet = ({ item }) => {
 					<p className="card-text">Population : {item.population}</p>
 					<p className="card-text">Terrain : {item.terrain}</p>
 					<div className="d-flex justify-content-between">
-						<Link to="/">
+						<Link to={"/planet/" + index}>
 							<button type="button" className="btn btn-outline-primary">
 								Learn more!
 							</button>
@@ -40,5 +40,6 @@ export const CardPlanet = ({ item }) => {
 };
 
 CardPlanet.propTypes = {
-	item: PropTypes.object
+	item: PropTypes.object,
+	index: PropTypes.number
 };

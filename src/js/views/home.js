@@ -12,15 +12,15 @@ export const Home = () => {
 		<div className="container">
 			<h1 className="text-danger">Characters</h1>
 			<div className="scrolling-wrapper row flex-row flex-nowrap row-cols-1 row-cols-md-3 g-4">
-				{store.characters.map(item => {
-					return <CardPeople key={item.url} item={item} />;
+				{store.characters.map((item, index) => {
+					return <CardPeople key={item.url} item={item} index={index} />;
 				})}
 			</div>
 			<br />
 			<h1 className="text-danger">Planets</h1>
 			<div className="scrolling-wrapper row flex-row flex-nowrap row-cols-1 row-cols-md-3 g-4">
-				{store.planets.map(item => {
-					return <CardPlanet key={item.url} item={item} />;
+				{store.planets.map((item, index) => {
+					return <CardPlanet key={item.url} item={item} index={index} />;
 				})}
 			</div>
 		</div>

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 export const Navbar = () => {
 	const { store, actions } = useContext(Context);
 	return (
-		<nav className="navbar navbar-light bg-light mb-3">
+		<nav className="navbar navbar-light bg-light mb-3 sticky-top">
 			<Link to="/">
 				<span className="navbar-brand mb-0 h1 mx-5">
 					<img src="https://cdn.iconscout.com/icon/free/png-128/star-341-225972.png" alt="..." />
@@ -26,10 +26,17 @@ export const Navbar = () => {
 							return (
 								<li key={index}>
 									<div className="d-flex justify-content-around text-center">
-										<Link to={"/single/" + index}>
+										<Link
+											to={`${
+												store.characters.includes(item)
+													? "/people/" + store.characters.indexOf(item)
+													: "/planet/" + store.planets.indexOf(item)
+											}`}>
 											<span>{item.name}</span>
 										</Link>
-										<i className="fas fa-trash" />
+										<span onClick={() => actions.removeFromFavorites(item)}>
+											<i className="fas fa-trash" />
+										</span>
 									</div>
 								</li>
 							);
