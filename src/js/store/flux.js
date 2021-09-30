@@ -38,22 +38,37 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			getCharacters: async () => {
-				const url = `${BASE_URL}people/`;
-				const response = await fetch(url);
-				const data = await response.json();
-				setStore({ characters: data.results });
+				if (localStorage.getItem("characters") == null) {
+					const url = `${BASE_URL}people/`;
+					const response = await fetch(url);
+					const data = await response.json();
+					setStore({ characters: data.results });
+					localStorage.setItem("characters", JSON.stringify(data.results));
+				} else {
+					setStore({ characters: JSON.parse(localStorage.getItem("characters")) });
+				}
 			},
 			getPlanets: async () => {
-				const url = `${BASE_URL}planets/`;
-				const response = await fetch(url);
-				const data = await response.json();
-				setStore({ planets: data.results });
+				if (localStorage.getItem("planets") == null) {
+					const url = `${BASE_URL}planets/`;
+					const response = await fetch(url);
+					const data = await response.json();
+					setStore({ planets: data.results });
+					localStorage.setItem("planets", JSON.stringify(data.results));
+				} else {
+					setStore({ planets: JSON.parse(localStorage.getItem("planets")) });
+				}
 			},
 			getVehicles: async () => {
-				const url = `${BASE_URL}vehicles/`;
-				const response = await fetch(url);
-				const data = await response.json();
-				setStore({ vehicles: data.results });
+				if (localStorage.getItem("vehicles") == null) {
+					const url = `${BASE_URL}vehicles/`;
+					const response = await fetch(url);
+					const data = await response.json();
+					setStore({ vehicles: data.results });
+					localStorage.setItem("vehicles", JSON.stringify(data.results));
+				} else {
+					setStore({ vehicles: JSON.parse(localStorage.getItem("vehicles")) });
+				}
 			},
 			changeColor: (index, color) => {
 				//get the store

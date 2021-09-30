@@ -28,15 +28,6 @@ export const Navbar = () => {
 									<div className="d-flex justify-content-around text-center">
 										<Link
 											to={`${
-												// () => {
-												// 	if (store.characters.includes(item)) {
-												// 		return "/people/" + store.characters.indexOf(item);
-												// 	} else if (store.characters.includes(item)) {
-												// 		return "/planet/" + store.planets.indexOf(item);
-												// 	} else {
-												// 		return "/vechile/" + store.vehicles.indexOf(item);
-												// 	}
-												// }
 												store.characters.includes(item)
 													? "/people/" + store.characters.indexOf(item)
 													: store.planets.includes(item)
