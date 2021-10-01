@@ -38,6 +38,7 @@ const SearchBar = () => {
 						return (
 							<Link
 								key={key}
+								className="dataItem"
 								onClick={clearInput}
 								to={`${
 									store.characters.includes(value)
