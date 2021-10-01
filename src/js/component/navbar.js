@@ -1,21 +1,27 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
+import "../../styles/home.scss";
+import SearchBar from "./searchBar";
 
 export const Navbar = () => {
 	const { store, actions } = useContext(Context);
 	return (
-		<nav className="navbar navbar-light bg-light mb-3 sticky-top">
+		<nav className="navbar navbar-light bg-light mb-3 sticky-top bg-opacity-10">
 			<Link to="/">
 				<span className="navbar-brand mb-0 h1 mx-5">
-					<img src="https://cdn.iconscout.com/icon/free/png-128/star-341-225972.png" alt="..." />
+					<img
+						src="https://static-mh.content.disney.io/starwars/assets/navigation/sw_logo_stacked-336c62367939.png"
+						alt="..."
+					/>
 				</span>
 			</Link>
-			<div className="ml-auto mx-5">
-				<div className="btn-group ">
+			<div className="d-flex ml-auto mx-5 align-items-center">
+				<SearchBar />
+				<div className="btn-group">
 					<button
 						type="button"
-						className="btn btn-primary dropdown-toggle"
+						className="btn btn-danger dropdown-toggle"
 						data-bs-toggle="dropdown"
 						aria-expanded="false">
 						{`Favorites `}

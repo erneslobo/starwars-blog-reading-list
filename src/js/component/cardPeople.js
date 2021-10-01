@@ -10,14 +10,14 @@ export const CardPeople = ({ item, index }) => {
 		<div className="col">
 			<div className="card h-100">
 				<img src="https://www.dummyimage.com/400x200" className="card-img-top" alt="..." />
-				<div className="card-body">
+				<div className="card-body bg-dark text-white">
 					<h5 className="card-title">{item.name}</h5>
 					<p className="card-text">Gender : {item.gender}</p>
 					<p className="card-text">Hair Color : {item.hair_color}</p>
 					<p className="card-text">Eye-Color : {item.eye_color}</p>
 					<div className="d-flex justify-content-between">
 						<Link to={"/people/" + index}>
-							<button type="button" className="btn btn-outline-primary">
+							<button type="button" className="btn btn-outline-danger">
 								Learn more!
 							</button>
 						</Link>

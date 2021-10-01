@@ -10,14 +10,14 @@ export const CardVehicle = ({ item, index }) => {
 		<div className="col">
 			<div className="card h-100">
 				<img src="https://www.dummyimage.com/400x200" className="card-img-top" alt="..." />
-				<div className="card-body">
+				<div className="card-body bg-dark text-white">
 					<h5 className="card-title">{item.name}</h5>
 					<p className="card-text">Model : {item.model}</p>
 					<p className="card-text">Manufacturer : {item.manufacturer}</p>
 					<p className="card-text">passengers : {item.passengers}</p>
 					<div className="d-flex justify-content-between">
 						<Link to={"/vehicle/" + index}>
-							<button type="button" className="btn btn-outline-primary">
+							<button type="button" className="btn btn-outline-danger">
 								Learn more!
 							</button>
 						</Link>

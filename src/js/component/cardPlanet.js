@@ -10,13 +10,13 @@ export const CardPlanet = ({ item, index }) => {
 		<div className="col">
 			<div className="card h-100">
 				<img src="https://www.dummyimage.com/400x200" className="card-img-top" alt="..." />
-				<div className="card-body">
+				<div className="card-body bg-dark text-white">
 					<h5 className="card-title">{item.name}</h5>
 					<p className="card-text">Population : {item.population}</p>
 					<p className="card-text">Terrain : {item.terrain}</p>
 					<div className="d-flex justify-content-between">
 						<Link to={"/planet/" + index}>
-							<button type="button" className="btn btn-outline-primary">
+							<button type="button" className="btn btn-outline-danger">
 								Learn more!
 							</button>
 						</Link>

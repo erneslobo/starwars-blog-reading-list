@@ -1,15 +1,51 @@
  /* The heart of the matter */
-          
- .scrolling-wrapper {
-    overflow-x: scroll;
-    overflow-y: hidden;
-    white-space: nowrap;
-  
-    .card {
-      display: inline-block;
-    }
+ .navbar {
+    background-color: transparent;	
+ }
 
-  }
+ th {
+     color:rgb(255, 193, 7);
+ }
 
+ td{
+    color:rgb(255, 255, 255);
+ }
 
-  
+ .search input {
+   background-color: white;
+   border: 0;
+   border-radius: 2px;
+   border-top-right-radius: 0px;
+   border-bottom-right-radius: 0px;
+   font-size: 18px;
+   padding: 15px;
+   height: 30px;
+   width: 300px;
+ }
+
+ input:focus {
+   outline: none;
+ }
+
+ .dataResult {
+  margin-top: 5px;
+  width: 300px;
+  height: 200px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  overflow: hidden;
+  overflow-y: auto;
+  position: absolute;
+}
+
+.dataResult::-webkit-scrollbar {
+  display: none;
+}
+
+.dataResult .dataItem {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  color: black;
+}

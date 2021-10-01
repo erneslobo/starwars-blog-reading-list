@@ -18,7 +18,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			characters: [],
 			planets: [],
 			favorites: [],
-			vehicles: []
+			vehicles: [],
+			searchItems: []
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -38,36 +39,45 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			getCharacters: async () => {
+				const store = getStore();
 				if (localStorage.getItem("characters") == null) {
 					const url = `${BASE_URL}people/`;
 					const response = await fetch(url);
 					const data = await response.json();
 					setStore({ characters: data.results });
 					localStorage.setItem("characters", JSON.stringify(data.results));
+					setStore({ searchItems: [...store.planets, ...store.characters, ...store.vehicles] });
 				} else {
 					setStore({ characters: JSON.parse(localStorage.getItem("characters")) });
+					setStore({ searchItems: [...store.planets, ...store.characters, ...store.vehicles] });
 				}
 			},
 			getPlanets: async () => {
+				const store = getStore();
 				if (localStorage.getItem("planets") == null) {
 					const url = `${BASE_URL}planets/`;
 					const response = await fetch(url);
 					const data = await response.json();
 					setStore({ planets: data.results });
 					localStorage.setItem("planets", JSON.stringify(data.results));
+					setStore({ searchItems: [...store.planets, ...store.characters, ...store.vehicles] });
 				} else {
 					setStore({ planets: JSON.parse(localStorage.getItem("planets")) });
+					setStore({ searchItems: [...store.planets, ...store.characters, ...store.vehicles] });
 				}
 			},
 			getVehicles: async () => {
+				const store = getStore();
 				if (localStorage.getItem("vehicles") == null) {
 					const url = `${BASE_URL}vehicles/`;
 					const response = await fetch(url);
 					const data = await response.json();
 					setStore({ vehicles: data.results });
 					localStorage.setItem("vehicles", JSON.stringify(data.results));
+					setStore({ searchItems: [...store.planets, ...store.characters, ...store.vehicles] });
 				} else {
 					setStore({ vehicles: JSON.parse(localStorage.getItem("vehicles")) });
+					setStore({ searchItems: [...store.planets, ...store.characters, ...store.vehicles] });
 				}
 			},
 			changeColor: (index, color) => {
