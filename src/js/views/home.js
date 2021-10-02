@@ -11,21 +11,21 @@ export const Home = () => {
 
 	return (
 		<div className="container">
-			<h1 className="text-danger">Characters</h1>
+			<h1 className="text-white">Characters</h1>
 			<div className="row flex-row flex-nowrap overflow-auto row-cols-1 row-cols-md-3 g-4">
 				{store.characters.map((item, index) => {
 					return <CardPeople key={item.url} item={item} index={index} />;
 				})}
 			</div>
 			<br />
-			<h1 className="text-danger">Planets</h1>
+			<h1 className="text-white">Planets</h1>
 			<div className="row flex-row flex-nowrap overflow-auto row-cols-1 row-cols-md-3 g-4">
 				{store.planets.map((item, index) => {
 					return <CardPlanet key={item.url} item={item} index={index} />;
 				})}
 			</div>
 			<br />
-			<h1 className="text-danger">Vehicles</h1>
+			<h1 className="text-white">Vehicles</h1>
 			<div className="row flex-row flex-nowrap overflow-auto row-cols-1 row-cols-md-3 g-4">
 				{store.vehicles.map((item, index) => {
 					return <CardVehicle key={item.url} item={item} index={index} />;
