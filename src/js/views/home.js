@@ -1,13 +1,12 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import { Context } from "../store/appContext";
-import { Link } from "react-router-dom";
-import "../../styles/home.scss";
 import { CardPeople } from "../component/cardPeople";
 import { CardPlanet } from "../component/cardPlanet";
 import { CardVehicle } from "../component/cardVehicle";
+import "../../styles/home.scss";
 
 export const Home = () => {
-	const { store, actions } = useContext(Context);
+	const { store } = useContext(Context);
 
 	return (
 		<div className="container">

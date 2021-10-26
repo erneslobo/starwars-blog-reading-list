@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import { Context } from "../store/appContext";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 export const Planet = () => {
-	const { store, actions } = useContext(Context);
+	const { store } = useContext(Context);
 	const params = useParams();
 	return (
 		<div className="container text-white">

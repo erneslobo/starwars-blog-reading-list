@@ -3,30 +3,68 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 	return {
 		store: {
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			],
 			characters: [],
 			planets: [],
 			favorites: [],
 			vehicles: [],
-			searchItems: []
+			searchItems: [],
+			authenticated: false,
+			userCreated: false
 		},
 		actions: {
-			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
+			login: (email, password) => {
+				let myHeaders = new Headers();
+				myHeaders.append("Content-Type", "application/json");
+
+				let raw = JSON.stringify({
+					email: email,
+					password: password
+				});
+
+				let requestOptions = {
+					method: "POST",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow"
+				};
+
+				fetch("https://3000-indigo-guppy-lr149uik.ws-us17.gitpod.io/login", requestOptions)
+					.then(response => response.json())
+					.then(result => {
+						if (result.access_token) {
+							setStore({ authenticated: true });
+							localStorage.setItem("jwt-token", result.access_token);
+						}
+					})
+					.catch(error => console.log("error", error));
 			},
 
+			logout: () => {
+				localStorage.removeItem("jwt-token");
+				setStore({ favorites: [], authenticated: false });
+			},
+			signup: (name, email, password) => {
+				let myHeaders = new Headers();
+				myHeaders.append("Content-Type", "application/json");
+
+				let raw = JSON.stringify({
+					name: name,
+					email: email,
+					password: password
+				});
+
+				let requestOptions = {
+					method: "POST",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow"
+				};
+
+				fetch("https://3000-indigo-guppy-lr149uik.ws-us17.gitpod.io/users", requestOptions)
+					.then(response => response.json())
+					.then(result => setStore({ userCreated: true }))
+					.catch(error => console.log("error", error));
+			},
 			addToFavorites: profile => {
 				const store = getStore();
 				setStore({ favorites: [...store.favorites, profile] });
@@ -52,6 +90,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({ searchItems: [...store.planets, ...store.characters, ...store.vehicles] });
 				}
 			},
+
 			getPlanets: async () => {
 				const store = getStore();
 				if (localStorage.getItem("planets") == null) {
@@ -66,6 +105,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({ searchItems: [...store.planets, ...store.characters, ...store.vehicles] });
 				}
 			},
+
 			getVehicles: async () => {
 				const store = getStore();
 				if (localStorage.getItem("vehicles") == null) {
@@ -79,20 +119,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({ vehicles: JSON.parse(localStorage.getItem("vehicles")) });
 					setStore({ searchItems: [...store.planets, ...store.characters, ...store.vehicles] });
 				}
-			},
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
-
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
-
-				//reset the global store
-				setStore({ demo: demo });
 			}
 		}
 	};
