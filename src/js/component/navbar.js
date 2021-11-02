@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import SearchBar from "./searchBar";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
@@ -6,6 +6,16 @@ import "../../styles/home.scss";
 
 export const Navbar = () => {
 	const { store, actions } = useContext(Context);
+
+	useEffect(
+		() => {
+			if (store.authenticated) {
+				actions.getFavorites();
+			}
+		},
+		[store.authenticated]
+	);
+
 	return (
 		<nav className="navbar navbar-light bg-light mb-3 sticky-top bg-opacity-10">
 			<Link to="/">

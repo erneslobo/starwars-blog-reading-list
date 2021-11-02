@@ -1,5 +1,6 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	const BASE_URL = "https://swapi.dev/api/";
+	const BASE_API_URL = "https://3000-indigo-guppy-lr149uik.ws-us17.gitpod.io/";
 
 	return {
 		store: {
@@ -28,12 +29,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 					redirect: "follow"
 				};
 
-				fetch("https://3000-indigo-guppy-lr149uik.ws-us17.gitpod.io/login", requestOptions)
+				fetch(`${BASE_API_URL}login`, requestOptions)
 					.then(response => response.json())
 					.then(result => {
 						if (result.access_token) {
-							setStore({ authenticated: true });
 							localStorage.setItem("jwt-token", result.access_token);
+							setStore({ authenticated: true });
+						} else if (result.message) {
+							alert(result.message);
 						}
 					})
 					.catch(error => console.log("error", error));
@@ -60,30 +63,113 @@ const getState = ({ getStore, getActions, setStore }) => {
 					redirect: "follow"
 				};
 
-				fetch("https://3000-indigo-guppy-lr149uik.ws-us17.gitpod.io/users", requestOptions)
+				fetch(`${BASE_API_URL}users`, requestOptions)
 					.then(response => response.json())
 					.then(result => setStore({ userCreated: true }))
 					.catch(error => console.log("error", error));
 			},
-			addToFavorites: profile => {
+
+			getFavorites: () => {
+				const actions = getActions();
 				const store = getStore();
-				setStore({ favorites: [...store.favorites, profile] });
+				let myHeaders = new Headers();
+				myHeaders.append("Authorization", `Bearer ${localStorage.getItem("jwt-token")}`);
+
+				let requestOptions = {
+					method: "GET",
+					headers: myHeaders,
+					redirect: "follow"
+				};
+
+				fetch(`${BASE_API_URL}users/favorites`, requestOptions)
+					.then(response => response.json())
+					.then(result => {
+						for (let i in result) {
+							if ("character_id" in result[i]) {
+								setStore({
+									favorites: [...store.favorites, store.characters[result[i]["character_id"] - 1]]
+								});
+							}
+							if ("planet_id" in result[i]) {
+								setStore({
+									favorites: [...store.favorites, store.planets[result[i]["planet_id"] - 1]]
+								});
+							}
+						}
+					})
+					.catch(error => console.log("error", error));
+			},
+
+			addToFavorites: profile => {
+				console.log(profile);
+				const store = getStore();
+				let myHeaders = new Headers();
+				myHeaders.append("Authorization", `Bearer ${localStorage.getItem("jwt-token")}`);
+
+				let raw = "";
+
+				let requestOptions = {
+					method: "POST",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow"
+				};
+
+				let url = "";
+
+				if (store.planets.includes(profile)) {
+					url = `${BASE_API_URL}favorite/planet/${profile["id"]}`;
+				}
+				if (store.characters.includes(profile)) {
+					url = `${BASE_API_URL}favorite/people/${profile["id"]}`;
+				}
+
+				fetch(url, requestOptions)
+					.then(response => response.text())
+					.then(result => setStore({ favorites: [...store.favorites, profile] }))
+					.catch(error => console.log("error", error));
 			},
 
 			removeFromFavorites: profile => {
 				const store = getStore();
-				const filterFavorites = store.favorites.filter(item => item != profile);
-				setStore({ favorites: filterFavorites });
+				let myHeaders = new Headers();
+				myHeaders.append("Authorization", `Bearer ${localStorage.getItem("jwt-token")}`);
+
+				let raw = "";
+
+				let requestOptions = {
+					method: "DELETE",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow"
+				};
+
+				let url = "";
+
+				if (store.planets.includes(profile)) {
+					url = `${BASE_API_URL}favorite/planet/${profile["id"]}`;
+				}
+				if (store.characters.includes(profile)) {
+					url = `${BASE_API_URL}favorite/people/${profile["id"]}`;
+				}
+
+				fetch(url, requestOptions)
+					.then(response => response.text())
+					.then(result => {
+						const filterFavorites = store.favorites.filter(item => item != profile);
+						setStore({ favorites: filterFavorites });
+					})
+					.catch(error => console.log("error", error));
 			},
 
 			getCharacters: async () => {
 				const store = getStore();
 				if (localStorage.getItem("characters") == null) {
-					const url = `${BASE_URL}people/`;
+					const url = `${BASE_API_URL}people/`;
 					const response = await fetch(url);
 					const data = await response.json();
-					setStore({ characters: data.results });
-					localStorage.setItem("characters", JSON.stringify(data.results));
+					setStore({ characters: data });
+					localStorage.setItem("characters", JSON.stringify(data));
 					setStore({ searchItems: [...store.planets, ...store.characters, ...store.vehicles] });
 				} else {
 					setStore({ characters: JSON.parse(localStorage.getItem("characters")) });
@@ -94,11 +180,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 			getPlanets: async () => {
 				const store = getStore();
 				if (localStorage.getItem("planets") == null) {
-					const url = `${BASE_URL}planets/`;
+					const url = `${BASE_API_URL}planets/`;
 					const response = await fetch(url);
 					const data = await response.json();
-					setStore({ planets: data.results });
-					localStorage.setItem("planets", JSON.stringify(data.results));
+					setStore({ planets: data });
+					localStorage.setItem("planets", JSON.stringify(data));
 					setStore({ searchItems: [...store.planets, ...store.characters, ...store.vehicles] });
 				} else {
 					setStore({ planets: JSON.parse(localStorage.getItem("planets")) });
